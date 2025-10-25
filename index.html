@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XEON — Portfolio</title>
+  <style>
+    :root{
+      --bg:#000000;
+      --card:#0a0a0a;
+      --muted:#8b95a0;
+      --accent:#3aa0ff;
+      --accent-glow: rgba(58,160,255,0.15);
+      --glass: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.06);
+      --radius:16px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+    
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+    
+    html,body{
+      height:100%;
+      background:var(--bg);
+      color:#e8f0f7;
+      overflow-x:hidden;
+    }
+    
+    body{
+      position:relative;
+    }
+    
+    body::before{
+      content:'';
+      position:fixed;
+      top:-50%;
+      left:-50%;
+      width:200%;
+      height:200%;
+      background:radial-gradient(circle at 50% 50%, rgba(58,160,255,0.08) 0%, transparent 50%);
+      pointer-events:none;
+      z-index:0;
+    }
+    
+    .container{
+      max-width:980px;
+      margin:0 auto;
+      padding:60px 32px;
+      text-align:center;
+      position:relative;
+      z-index:1;
+    }
+    
+    .avatar-wrapper{
+      position:relative;
+      width:160px;
+      height:160px;
+      margin:0 auto 32px;
+      animation:fadeInScale 0.8s ease-out;
+    }
+    
+    .avatar{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      overflow:hidden;
+      border:4px solid var(--accent-glow);
+      box-shadow:0 8px 32px rgba(0,0,0,0.4), 0 0 60px var(--accent-glow);
+      position:relative;
+      z-index:2;
+      transition:transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .avatar:hover{
+      transform:scale(1.05);
+      box-shadow:0 12px 48px rgba(0,0,0,0.6), 0 0 80px var(--accent-glow);
+    }
+    
+    .avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    
+    .avatar-glow{
+      position:absolute;
+      top:-20px;
+      left:-20px;
+      right:-20px;
+      bottom:-20px;
+      background:radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      border-radius:50%;
+      z-index:1;
+      animation:pulse 3s ease-in-out infinite;
+    }
+    
+    h1{
+      font-size:72px;
+      margin:0 0 16px;
+      letter-spacing:4px;
+      font-weight:800;
+      background:linear-gradient(135deg, #ffffff 0%, var(--accent) 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      animation:fadeInUp 0.8s ease-out 0.2s both;
+    }
+    
+    .meta{
+      color:var(--muted);
+      font-size:15px;
+      margin-bottom:32px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      animation:fadeInUp 0.8s ease-out 0.3s both;
+    }
+    
+    .meta-item{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    
+    .meta svg{
+      width:16px;
+      height:16px;
+      opacity:0.7;
+    }
+    
+    .divider{
+      width:4px;
+      height:4px;
+      background:var(--muted);
+      border-radius:50%;
+      opacity:0.4;
+    }
+    
+    .about{
+      max-width:800px;
+      margin:40px auto;
+      color:#c5d1dc;
+      line-height:1.9;
+      font-size:17px;
+      background:var(--glass);
+      padding:32px;
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      backdrop-filter:blur(10px);
+      animation:fadeInUp 0.8s ease-out 0.4s both;
+    }
+    
+    .about strong{
+      color:var(--accent);
+      font-weight:600;
+    }
+    
+    .section-title{
+      font-size:28px;
+      margin:56px 0 32px;
+      color:#ffffff;
+      font-weight:700;
+      position:relative;
+      display:inline-block;
+      animation:fadeInUp 0.8s ease-out 0.5s both;
+    }
+    
+    .section-title::after{
+      content:'';
+      position:absolute;
+      bottom:-8px;
+      left:50%;
+      transform:translateX(-50%);
+      width:60px;
+      height:3px;
+      background:linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius:999px;
+    }
+    
+    .skills-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
+      gap:20px;
+      max-width:900px;
+      margin:32px auto;
+      animation:fadeInUp 0.8s ease-out 0.6s both;
+    }
+    
+    .skill{
+      background:var(--card);
+      padding:24px;
+      border-radius:var(--radius);
+      text-align:left;
+      border:1px solid var(--border);
+      transition:all 0.3s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .skill::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:2px;
+      background:linear-gradient(90deg, var(--accent), #6ee7b7);
+      transform:scaleX(0);
+      transform-origin:left;
+      transition:transform 0.4s ease;
+    }
+    
+    .skill:hover{
+      transform:translateY(-4px);
+      border-color:rgba(58,160,255,0.3);
+      box-shadow:0 8px 32px rgba(0,0,0,0.3), 0 0 40px rgba(58,160,255,0.1);
+    }
+    
+    .skill:hover::before{
+      transform:scaleX(1);
+    }
+    
+    .skill h4{
+      margin:0 0 12px;
+      font-size:17px;
+      color:#ffffff;
+    }
+    
+    .progress{
+      background:var(--glass);
+      height:8px;
+      border-radius:999px;
+      overflow:hidden;
+      margin-bottom:12px;
+    }
+    
+    .bar{
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),#6ee7b7);
+      transition:width 1s ease;
+      box-shadow:0 0 12px rgba(58,160,255,0.4);
+    }
+    
+    .skill-meta{
+      display:flex;
+      justify-content:space-between;
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:12px;
+    }
+    
+    .skill-meta span{
+      color:var(--accent);
+      font-weight:600;
+    }
+    
+    .skill p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+    }
+    
+    .buttons{
+      display:flex;
+      gap:16px;
+      justify-content:center;
+      margin-top:40px;
+      flex-wrap:wrap;
+      animation:fadeInUp 0.8s ease-out 0.7s both;
+    }
+    
+    .btn{
+      padding:14px 28px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:var(--glass);
+      color:#e8f0f7;
+      text-decoration:none;
+      font-weight:600;
+      font-size:15px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      transition:all 0.3s ease;
+      backdrop-filter:blur(10px);
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .btn::before{
+      content:'';
+      position:absolute;
+      top:50%;
+      left:50%;
+      width:0;
+      height:0;
+      border-radius:50%;
+      background:var(--accent-glow);
+      transform:translate(-50%, -50%);
+      transition:width 0.5s ease, height 0.5s ease;
+    }
+    
+    .btn:hover::before{
+      width:300px;
+      height:300px;
+    }
+    
+    .btn span{
+      position:relative;
+      z-index:1;
+    }
+    
+    .btn svg{
+      width:20px;
+      height:20px;
+      position:relative;
+      z-index:1;
+      transition:transform 0.3s ease;
+    }
+    
+    .btn:hover{
+      transform:translateY(-2px);
+      border-color:var(--accent);
+      box-shadow:0 8px 24px rgba(58,160,255,0.2);
+    }
+    
+    .btn:hover svg{
+      transform:scale(1.1);
+    }
+    
+    .btn.primary{
+      background:var(--glass);
+      border-color:var(--border);
+    }
+    
+    footer{
+      margin-top:64px;
+      padding-top:32px;
+      border-top:1px solid var(--border);
+      animation:fadeIn 0.8s ease-out 0.8s both;
+    }
+    
+    .footer-text{
+      max-width:760px;
+      margin:0 auto;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.7;
+    }
+    
+    @keyframes fadeInScale{
+      from{
+        opacity:0;
+        transform:scale(0.8);
+      }
+      to{
+        opacity:1;
+        transform:scale(1);
+      }
+    }
+    
+    @keyframes fadeInUp{
+      from{
+        opacity:0;
+        transform:translateY(20px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+    
+    @keyframes fadeIn{
+      from{opacity:0}
+      to{opacity:1}
+    }
+    
+    @keyframes pulse{
+      0%, 100%{
+        opacity:0.3;
+        transform:scale(1);
+      }
+      50%{
+        opacity:0.6;
+        transform:scale(1.1);
+      }
+    }
+    
+    @media(max-width:720px){
+      h1{font-size:52px;letter-spacing:2px}
+      .skills-grid{grid-template-columns:1fr;gap:16px}
+      .container{padding:40px 24px}
+      .about{padding:24px;font-size:16px}
+      .meta{font-size:14px}
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="avatar-wrapper">
+      <div class="avatar-glow"></div>
+      <div class="avatar">
+        <img src="https://files.catbox.moe/ytuh2g.jpg" alt="Xeon Profile" />
+      </div>
+    </div>
+    
+    <h1>XEON</h1>
+    
+    <div class="meta">
+      <div class="meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <span>Malappuram, Kerala</span>
+      </div>
+      <div class="divider"></div>
+      <div class="meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+        </svg>
+        <span>Python Full Stack Development</span>
+      </div>
+    </div>
+
+    <div class="about">
+      I'm a passionate <strong>Python Full Stack Developer</strong> skilled in building Telegram bots, automation tools, and web applications. I also develop WhatsApp moderation (ban/unban) tools and advanced web solutions using Python, HTML, CSS, and JavaScript. My goal is to create efficient, secure, and user-friendly digital systems that simplify everyday tasks.
+    </div>
+
+    <h2 class="section-title">Technical Skills</h2>
+    
+    <div class="skills-grid">
+      <div class="skill">
+        <div class="skill-meta">
+          <h4>Python Development</h4>
+          <span>90%</span>
+        </div>
+        <div class="progress">
+          <div class="bar" style="width:90%"></div>
+        </div>
+        <p>Backend development, automation, APIs, and bot scripting with Python.</p>
+      </div>
+
+      <div class="skill">
+        <div class="skill-meta">
+          <h4>Telegram Bots (Advanced)</h4>
+          <span>92%</span>
+        </div>
+        <div class="progress">
+          <div class="bar" style="width:92%"></div>
+        </div>
+        <p>Creating advanced Telegram bots with inline menus, webhooks, and integrations.</p>
+      </div>
+
+      <div class="skill">
+        <div class="skill-meta">
+          <h4>Web Development</h4>
+          <span>88%</span>
+        </div>
+        <div class="progress">
+          <div class="bar" style="width:88%"></div>
+        </div>
+        <p>Frontend & backend design using HTML, CSS, JavaScript, and Python frameworks.</p>
+      </div>
+
+      <div class="skill">
+        <div class="skill-meta">
+          <h4>WhatsApp Ban & Unban Tools</h4>
+          <span>85%</span>
+        </div>
+        <div class="progress">
+          <div class="bar" style="width:85%"></div>
+        </div>
+        <p>Development of moderation utilities for WhatsApp group automation.</p>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <a href="https://wa.me/YOUR_NUMBER" target="_blank" rel="noopener noreferrer" class="btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+        <span>WhatsApp</span>
+      </a>
+      
+      <a href="https://t.me/YOUR_USERNAME" target="_blank" rel="noopener noreferrer" class="btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m22 2-7 20-4-9-9-4Z"></path>
+          <path d="M22 2 11 13"></path>
+        </svg>
+        <span>Telegram</span>
+      </a>
+      
+      <a href="https://www.instagram.com/cod_lucxs?igsh=MTV6NzQyMHR1NjExcQ==" target="_blank" rel="noopener noreferrer" class="btn primary">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+        </svg>
+        <span>Instagram</span>
+      </a>
+    </div>
+
+    <footer>
+      <div class="footer-text">
+        <strong>Need to showcase your projects?</strong> Share your GitHub links, project details, or any additional information you'd like to display, and I'll integrate them seamlessly into your portfolio.
+      </div>
+      <div style="margin-top:24px;padding:12px 20px;background:var(--card);border:1px solid var(--border);border-radius:8px;display:inline-block;font-size:14px">
+        © 2025 <span style="color:var(--accent);font-weight:600">Xeon</span>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
